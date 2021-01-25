@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import ClickedMarker from './Components/ClickedMarker'
 import './App.css'
-import { map } from 'leaflet'
 
 
 function App() {
@@ -91,7 +90,7 @@ function App() {
   return (
     <div className="App">
       <h2>Map</h2>
-      {initMap(true)}
+      {initMap}
       <h2>Add</h2>
       <button onClick={() => {setShowForm(!showForm)}}> Show</button>
       {formToShow ? (
@@ -104,9 +103,7 @@ function App() {
                   <td>
                     <label>
                       Latitude:
-                      <input value={newCoordinateLA} onChange={(event) => {
-                        event.preventDefault()
-                        setLA(event.target.value)}} required></input>
+                      <input value={newCoordinateLA} onChange={(event) => { setLA(event.target.value)}} required></input>
                     </label>
                   </td>
                   <td>
