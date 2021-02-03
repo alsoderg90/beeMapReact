@@ -4,33 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const data = [
-  {
-    id: 1,
-    name: "Matti",
-    status: "Sponsor",
-    latitude: 62.24,
-    longitude: 25.72,
-  },
-  {
-    id: 2,
-    status: "Sponsor",
-    name: "Jukka",
-    latitude: 62.26,
-    longitude: 25.75,
-  },
-  {
-    id: 3,
-    status: "Bee-friend",
-    name: "Tiina",
-    latitude: 62.28,
-    longitude: 25.69,
-  }
-]
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App data={data}/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

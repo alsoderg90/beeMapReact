@@ -1,42 +1,60 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import ClickedMarker from './Components/ClickedMarker'
 import './App.css'
+import mapService from './Services/locations'
 
-function App(props) {
+function App() {
 
   const [newCoordinateLA, setLA] = useState("")
   const [newCoordinateLO, setLO] = useState("")
   const [newName, setName] = useState("")
   const [newCompany, setCompany] = useState("")
   const [newStatus, setStatus] = useState("")
-  const [markers, setMarker] = useState(props.data)
+  const [markers, setMarker] = useState([])
   const [showForm, setShowForm] = useState(false)
-
+  
+  useEffect(() => {
+    mapService.getAll().then(locations => {
+      setMarker(locations)
+      console.log(locations, "moi")
+    })
+  },[]) 
+  
 
   const placeMarker = () => {
-    return (
-      markers.map(m => (
-        <Marker
-          key = {m.id}
-          position={[m.latitude, m.longitude]}>
-          <Popup>
-            Added by {m.name} ({m.status})
-          </Popup>
-        </Marker>
-      ))
-    )
+    if (markers) {
+      console.log(markers)
+      return (
+        markers.map(m => (
+          <Marker
+            key = {m.id}
+            position={[m.Latitude, m.Longitude]}>
+            <Popup>
+              Added by {m.Name} {/*({m.status})*/}
+            </Popup> 
+          </Marker>
+        ))
+      )
+    }
+
+    else return 
   }
 
   const addMarker = (event) => {
     event.preventDefault()
     const marker = {
-      id : markers.lengtd + 1,
-      latitude: newCoordinateLA,
-      longitude: newCoordinateLO,
-      name: newName,
-      status: newStatus
+      Latitude: newCoordinateLA,
+      Longitude: newCoordinateLO,
+      Name: newName,
+      status: newStatus,
+      id :  markers.lengtd + 1,
     }
+    
+    mapService.create(marker).then(response => {
+      console.log(response)
+      //setMarker(markers.concat(response.data))
+    }) 
     setMarker(markers.concat(marker))
     setLA("")
     setLO("")
