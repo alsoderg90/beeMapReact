@@ -6,22 +6,23 @@ import mapService from './Services/locations'
 
 function App() {
 
-  const [newCoordinateLA, setLA] = useState("")
-  const [newCoordinateLO, setLO] = useState("")
+  const [newCoordinateLAT, setLAT] = useState("")
+  const [newCoordinateLON, setLON] = useState("")
   const [newName, setName] = useState("")
   const [newCompany, setCompany] = useState("")
   const [newStatus, setStatus] = useState("")
   const [markers, setMarker] = useState([])
   const [showForm, setShowForm] = useState(false)
   
+  /* Get locations from database */
   useEffect(() => {
     mapService.getAll().then(locations => {
-      setMarker(locations)
+      setMarker(locations.data)
       console.log(locations, "moi")
     })
   },[]) 
   
-
+  /* Add location/s to the map */
   const placeMarker = () => {
     if (markers) {
       console.log(markers)
@@ -37,15 +38,15 @@ function App() {
         ))
       )
     }
-
     else return 
   }
 
-  const addMarker = (event) => {
+  /* Creates a marker based on the information provided by the user  */
+  const createMarker = (event) => {
     event.preventDefault()
     const marker = {
-      Latitude: newCoordinateLA,
-      Longitude: newCoordinateLO,
+      Latitude: newCoordinateLAT,
+      Longitude: newCoordinateLON,
       Name: newName,
       status: newStatus,
       id :  markers.lengtd + 1,
@@ -53,11 +54,10 @@ function App() {
     
     mapService.create(marker).then(response => {
       console.log(response)
-      //setMarker(markers.concat(response.data))
     }) 
     setMarker(markers.concat(marker))
-    setLA("")
-    setLO("")
+    setLAT("")
+    setLON("")
     setName("")
     setCompany("")
     setStatus("")
@@ -66,8 +66,9 @@ function App() {
       placeMarker() && setShowForm(!showForm) 
     )
   }
-
-  const initMap = () => {
+  
+  /* Initialize Leaflet and add the OpenStreetMap tiles to it */ 
+  const createMap = () => {
       const position = [62.24147, 25.720]
       return (
         <MapContainer center={position} zoom={12} scrollWheelZoom={true}>
@@ -76,7 +77,7 @@ function App() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {placeMarker()}
-        <ClickedMarker La={setLA} Lo={setLO}/>
+        <ClickedMarker La={setLAT} Lo={setLON}/>
       </MapContainer>
       )
   }
@@ -86,11 +87,11 @@ function App() {
   return (
     <div className="App">
       <h2>Map</h2>
-      {initMap()}
+      {createMap()}
       <h2>Add</h2>
       <button onClick={() => {setShowForm(!showForm)}}> Show</button>
       {formToShow ? (
-        <form onSubmit={addMarker}>
+        <form onSubmit={createMarker}>
           <fieldset>
             <table>
               <tbody>
@@ -98,15 +99,13 @@ function App() {
                   <td>
                     <label>
                     Latitude:
-                      <input value={newCoordinateLA} onChange={(event) => {
-                        event.preventDefault()
-                        setLA(event.target.value)}} required></input>
+                      <input value={newCoordinateLAT} onChange={(event) => { setLAT(event.target.value)}} required></input>
                     </label>
                   </td>
                   <td>
                     <label>
                     Longitude:
-                      <input value={newCoordinateLO} onChange={(event) => {setLO(event.target.value)}} required></input><br/>
+                      <input value={newCoordinateLON} onChange={(event) => {setLON(event.target.value)}} required></input><br/>
                     </label>
                   </td>
                 </tr>

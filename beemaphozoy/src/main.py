@@ -9,28 +9,24 @@ datastore_client = datastore.Client('beemaphozoy')
 
 @app.route('/locations')
 def locations():
-    query = datastore_client.query(kind='HiveLocation')
+    kind = "HiveLocation"
+    query = datastore_client.query(kind=kind)
     results = list(query.fetch())
-    #print(results[0]["LatLng"].latitude, results[0]["LatLng"].longitude, results[0]["Name"])
     locations = []
     for item in results:
         locations.append(
             {"Latitude": item["LatLng"].latitude,
              "Longitude": item["LatLng"].longitude,
              "Name": item["Name"]})
-    #print(json.dumps(locations), "locations")
     return json.dumps(locations)
 
 @app.route('/locations/save', methods=["POST"])
 def save_to_db():
     data = request.get_json()
     print("saved", data,"!")
-    #print(data["Latitude"], data["Longitude"])
     kind = "HiveLocation"
     task_key = datastore_client.key(kind)
     task = datastore.Entity(key=task_key)
-    #print(task_key)
-    #print(task)
     geopoint = datastore.helpers.GeoPoint(data["Latitude"], data["Longitude"])
     task["LatLng"] = geopoint
     task["Name"] = data["Name"]
