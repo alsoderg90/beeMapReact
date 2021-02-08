@@ -2,13 +2,10 @@ import { useMapEvents } from 'react-leaflet'
 
 /* Setting coordinates from clicked positon to component state  */
 function ClickedMarker({ Lat, Lng }) {
-
   const map = useMapEvents({
     click(e) {
-      const newMarker = e.latlng
-      console.log(newMarker)
-      Lat(newMarker.lat)
-      Lng(newMarker.lng)
+      Lat(e.latlng.lat)
+      Lng(e.latlng.lng)
     }
   })
   return null

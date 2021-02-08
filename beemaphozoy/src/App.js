@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import ClickedMarker from './Components/ClickedMarker'
 import './App.css'
 import mapService from './Services/locations'
+import GoogleOAuth from './Components/GoogleOAuth'
 
 function App() {
 
@@ -13,14 +14,22 @@ function App() {
   const [newStatus, setStatus] = useState("")
   const [markers, setMarker] = useState([])
   const [showForm, setShowForm] = useState(false)
+  const [logged, setUser ] = useState(false)
+
   
-  /* Get locations from database */
+  /* Get locations from database 
   useEffect(() => {
     mapService.getAll().then(locations => {
       setMarker(locations.data)
       console.log(locations, "moi")
     })
-  },[]) 
+  },[]) */
+
+  
+
+  const remove = () =>  {
+    console.log("not implemented")
+  }
   
   /* Add location/s to the map */
   const placeMarker = () => {
@@ -33,6 +42,10 @@ function App() {
             position={[m.Latitude, m.Longitude]}>
             <Popup>
               Added by {m.Name} {/*({m.status})*/}
+              {logged ? 
+                          <button onClick={() => { remove() }}>Delete</button> :
+                          <p></p> 
+            }
             </Popup> 
           </Marker>
         ))
@@ -77,15 +90,15 @@ function App() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {placeMarker()}
-        <ClickedMarker La={setLAT} Lo={setLON}/>
+        <ClickedMarker Lat={setLAT} Lng={setLON}/>
       </MapContainer>
       )
   }
 
   const formToShow = showForm
-
   return (
     <div className="App">
+      <GoogleOAuth setUser={setUser} logged={logged} />
       <h2>Map</h2>
       {createMap()}
       <h2>Add</h2>
@@ -99,13 +112,13 @@ function App() {
                   <td>
                     <label>
                     Latitude:
-                      <input value={newCoordinateLAT} onChange={(event) => { setLAT(event.target.value)}} required></input>
+                      <input type="number" value={newCoordinateLAT} onChange={(event) => { setLAT(event.target.value)}} required></input>
                     </label>
                   </td>
                   <td>
                     <label>
                     Longitude:
-                      <input value={newCoordinateLON} onChange={(event) => {setLON(event.target.value)}} required></input><br/>
+                      <input type="number" value={newCoordinateLON} onChange={(event) => {setLON(event.target.value)}} required></input><br/>
                     </label>
                   </td>
                 </tr>

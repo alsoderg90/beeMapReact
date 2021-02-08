@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://127.0.0.1:5000/locations'
+const baseUrl = 'http://127.0.0.1:5000cmd/locations'
 
 /* Get locations from database */
 const getAll = () => {

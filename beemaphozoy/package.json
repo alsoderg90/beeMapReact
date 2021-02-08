@@ -10,6 +10,7 @@
     "leaflet": "^1.7.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-google-login": "^5.2.2",
     "react-leaflet": "^3.1.0",
     "react-scripts": "4.0.1",
     "save-dev": "0.0.1-security",
@@ -20,6 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "create-app": "npm run build && rm -r ../build && cp -r build ../build && rm -r build",
     "server": "json-server -p3001 --watch db.json",
     "eslint": "eslint ."
   },
