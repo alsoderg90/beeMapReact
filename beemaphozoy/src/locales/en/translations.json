@@ -1,0 +1,12 @@
+{
+    "title": "Add location to map!",
+    "form": {
+      "part1": "Click map or write coordinates.",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "name": "Name",
+      "email": "Email",
+      "add": "Add"
+    },
+    "footer": "Follow us on social media"
+  }

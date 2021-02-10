@@ -1,0 +1,12 @@
+  {
+    "title": "Lisää sijainti kartalle!",
+    "form": {
+      "part1": "Paina kartasta tai kirjoita koordinaatit.",
+      "latitude": "Leveysaste",
+      "longitude": "Pituusaste",
+      "name": "Nimi",
+      "email": "Sähköposti",
+      "add": "Lisää"
+    },
+    "footer": "Seuraa sosiaalisessa mediassa"
+  }
